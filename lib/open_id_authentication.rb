@@ -109,7 +109,7 @@ module OpenIdAuthentication
 
       open_id_request = open_id_consumer.begin(identity_url)
       add_simple_registration_fields(open_id_request, options)
-      redirect_to(open_id_redirect_url(open_id_request, return_to, method))
+      redirect_to(open_id_redirect_url(open_id_request, options, return_to, method))
     rescue OpenIdAuthentication::InvalidOpenId => e
       yield Result[:invalid], identity_url, nil
     rescue OpenID::OpenIDError, Timeout::Error => e
@@ -147,9 +147,11 @@ module OpenIdAuthentication
       open_id_request.add_extension(sreg_request)
     end
 
-    def open_id_redirect_url(open_id_request, return_to = nil, method = nil)
+    def open_id_redirect_url(open_id_request, fields, return_to = nil, method = nil)
       open_id_request.return_to_args['_method'] = (method || request.method).to_s
       open_id_request.return_to_args['open_id_complete'] = '1'
+			open_id_request.return_to_args['remember_me'] = fields[:remember_me].to_s if fields[:remember_me]
+			open_id_request.return_to_args['invitation_token'] = fields[:invitation_token].to_s if fields[:invitation_token]
       open_id_request.redirect_url(root_url, return_to || requested_url)
     end
 
