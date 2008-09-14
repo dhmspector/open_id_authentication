@@ -152,6 +152,12 @@ module OpenIdAuthentication
       open_id_request.return_to_args['open_id_complete'] = '1'
 			open_id_request.return_to_args['remember_me'] = fields[:remember_me].to_s if fields[:remember_me]
 			open_id_request.return_to_args['invitation_token'] = fields[:invitation_token].to_s if fields[:invitation_token]
+      if (method || request.method).to_s != 'get'
+        begin
+          open_id_request.return_to_args[request_forgery_protection_token.to_s] = form_authenticity_token
+        rescue InvalidAuthenticityToken
+        end
+      end
       open_id_request.redirect_url(root_url, return_to || requested_url)
     end
 
