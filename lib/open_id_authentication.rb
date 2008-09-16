@@ -152,7 +152,7 @@ module OpenIdAuthentication
       open_id_request.return_to_args['open_id_complete'] = '1'
 			open_id_request.return_to_args['remember_me'] = fields[:remember_me].to_s if fields[:remember_me]
 			open_id_request.return_to_args['invitation_token'] = fields[:invitation_token].to_s if fields[:invitation_token]
-			open_id_request.return_to_args['return_to'] = fields[:return_to].to_s if fields[:return_to]
+			open_id_request.return_to_args['requested'] = fields[:requested].to_s if fields[:requested]
 			open_id_request.return_to_args['refered_from'] = fields[:refered_from].to_s if fields[:refered_from]
       if (method || request.method).to_s != 'get'
         begin
