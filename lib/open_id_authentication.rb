@@ -217,10 +217,10 @@ module OpenIdAuthentication
     def open_id_redirect_url(open_id_request, return_to = nil, method = nil)
       open_id_request.return_to_args['_method'] = (method || request.method).to_s
       open_id_request.return_to_args['open_id_complete'] = '1'
-			open_id_request.return_to_args['remember_me'] = fields[:remember_me].to_s if fields[:remember_me]
-			open_id_request.return_to_args['invitation_token'] = fields[:invitation_token].to_s if fields[:invitation_token]
-			open_id_request.return_to_args['requested'] = fields[:requested].to_s if fields[:requested]
-			open_id_request.return_to_args['refered_from'] = fields[:refered_from].to_s if fields[:refered_from]
+			open_id_request.return_to_args['remember_me'] = params[:remember_me].to_s if params[:remember_me]
+			open_id_request.return_to_args['invitation_token'] = params[:invitation_token].to_s if params[:invitation_token]
+			open_id_request.return_to_args['requested'] = params[:requested].to_s if params[:requested]
+			open_id_request.return_to_args['refered_from'] = params[:refered_from].to_s if params[:refered_from]
       if (method || request.method).to_s != 'get'
         begin
           open_id_request.return_to_args[request_forgery_protection_token.to_s] = form_authenticity_token
